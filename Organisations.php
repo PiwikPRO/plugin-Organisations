@@ -23,4 +23,9 @@ class Organisations extends \Piwik\Plugin
         $visitor['organisation']     = $instance->getOrganisation();
         $visitor['organisationName'] = $instance->getOrganisationName();
     }
+
+    public function install()
+    {
+        Model::install();
+    }
 }

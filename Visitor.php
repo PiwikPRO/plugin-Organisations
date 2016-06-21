@@ -17,12 +17,19 @@ class Visitor
         if (isset($this->details['location_provider'])) {
             return $this->details['location_provider'];
         }
-        return Piwik::translate('General_Unknown');
+        return 0;
     }
 
     public function getOrganisationName()
     {
-        // @todo use model to return pretty org name
-        return $this->getOrganisation();
+        $orgId = $this->getOrganisation();
+
+        if (is_numeric($orgId)) {
+            $model        = new Model();
+            $organisation = $model->getOrganisation($orgId);
+            return $organisation['name'];
+        }
+
+        return Piwik::translate('General_Unknown');
     }
 }
