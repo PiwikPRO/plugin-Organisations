@@ -19,7 +19,7 @@ class Model
     {
         $organisations = $this->getDb()->fetchAll('SELECT * FROM ' . $this->table);
         foreach ($organisations as $organisation) {
-            $organisation['iprange'] = $this->splitIpRanges($organisation['iprange']);
+            $organisation['ipranges'] = $this->splitIpRanges($organisation['ipranges']);
         }
         return $organisations;
     }
@@ -28,8 +28,8 @@ class Model
     {
         $query = 'SELECT * FROM ' . $this->table . ' WHERE idorg = ?';
         $bind  = array($idOrg);
-        $organisation = Db::fetchOne($query, $bind);
-        $organisation['iprange'] = $this->splitIpRanges($organisation['iprange']);
+        $organisation = Db::fetchRow($query, $bind);
+        $organisation['ipranges'] = $this->splitIpRanges($organisation['ipranges']);
         return $organisation;
     }
 
@@ -42,7 +42,7 @@ class Model
 
     public function updateOrganisation($idOrg, $organisation)
     {
-        $organisation['iprange'] = $this->combineIpRanges($organisation['iprange']);
+        $organisation['ipranges'] = $this->combineIpRanges($organisation['ipranges']);
         $this->getDb()->update($this->table, $organisation, "idorg = " . (int) $idOrg);
     }
 
@@ -50,7 +50,7 @@ class Model
     {
         $nextId = $this->getNextOrganisationId();
         $organisation['idorg'] = $nextId;
-        $organisation['iprange'] = $this->combineIpRanges($organisation['iprange']);
+        $organisation['ipranges'] = $this->combineIpRanges($organisation['ipranges']);
 
         $this->getDb()->insert($this->table, $organisation);
 
@@ -109,7 +109,6 @@ class Model
     public static function install()
     {
         $orgTable = "`idorg` INT(11) NOT NULL,
-					    ---`idsite` INTEGER(11) NOT NULL,
 					    `name` VARCHAR(100) NOT NULL,
 					    `ipranges` VARCHAR(255) NOT NULL,
 					    PRIMARY KEY (`idorg`)";
