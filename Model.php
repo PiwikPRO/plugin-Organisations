@@ -17,14 +17,20 @@ class Model
 
     public function getAll()
     {
-        return $this->getDb()->fetchAll('SELECT * FROM ' . $this->table);
+        $organisations = $this->getDb()->fetchAll('SELECT * FROM ' . $this->table);
+        foreach ($organisations as $organisation) {
+            $organisation['iprange'] = $this->splitIpRanges($organisation['iprange']);
+        }
+        return $organisations;
     }
 
     public function getOrganisation($idOrg)
     {
         $query = 'SELECT * FROM ' . $this->table . ' WHERE idorg = ?';
         $bind  = array($idOrg);
-        return Db::fetchOne($query, $bind);
+        $organisation = Db::fetchOne($query, $bind);
+        $organisation['iprange'] = $this->splitIpRanges($organisation['iprange']);
+        return $organisation;
     }
 
     public function deleteOrganisation($idOrg)
@@ -36,6 +42,7 @@ class Model
 
     public function updateOrganisation($idOrg, $organisation)
     {
+        $organisation['iprange'] = $this->combineIpRanges($organisation['iprange']);
         $this->getDb()->update($this->table, $organisation, "idorg = " . (int) $idOrg);
     }
 
@@ -43,6 +50,7 @@ class Model
     {
         $nextId = $this->getNextOrganisationId();
         $organisation['idorg'] = $nextId;
+        $organisation['iprange'] = $this->combineIpRanges($organisation['iprange']);
 
         $this->getDb()->insert($this->table, $organisation);
 
@@ -61,6 +69,24 @@ class Model
         }
 
         return $ipRanges;
+    }
+
+    /**
+     * @param string $ipRanges
+     * @return array
+     */
+    private function splitIpRanges($ipRanges)
+    {
+        return explode(';', $ipRanges);
+    }
+
+    /**
+     * @param array $ipRanges
+     * @return string
+     */
+    private function combineIpRanges($ipRanges)
+    {
+        return implode(';', $ipRanges);
     }
 
     private function getNextOrganisationId()
