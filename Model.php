@@ -49,6 +49,20 @@ class Model
         return $nextId;
     }
 
+    public function getIpRangeMapping()
+    {
+        // @todo implement caching (tracker cache)
+        $ipRanges = array();
+        $organisations = $this->getAll();
+        foreach ($organisations as $organisation) {
+            foreach ($organisation['ipranges'] as $ipRange) {
+                $ipRanges[$ipRange] = $organisation['idorg'];
+            }
+        }
+
+        return $ipRanges;
+    }
+
     private function getNextOrganisationId()
     {
         $db = $this->getDb();

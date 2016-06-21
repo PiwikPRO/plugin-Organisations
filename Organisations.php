@@ -24,6 +24,11 @@ class Organisations extends \Piwik\Plugin
         $visitor['organisationName'] = $instance->getOrganisationName();
     }
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
     public function install()
     {
         Model::install();

@@ -1,8 +1,10 @@
 <?php
 namespace Piwik\Plugins\Organisations\Columns;
 
+use Piwik\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Organisations\Model;
 use Piwik\Plugins\Resolution\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -30,8 +32,24 @@ class Organisation extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        // @todo identify organsiation based on IP and return the id
-        return '';
+        $ip = $visitor->getVisitorColumn('location_ip');
+
+        if (empty($ip)) {
+            return 0;
+        }
+
+        $model = new Model();
+        $ipRanges = $model->getIpRangeMapping();
+
+        $ip = IP::fromStringIP($ip);
+
+        foreach ($ipRanges as $ipRange => $orgId) {
+            if ($ip->isInRange($ipRange)) {
+                return $orgId;
+            }
+        }
+
+        return 0;
     }
 
     public function getName()
