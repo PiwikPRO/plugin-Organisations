@@ -2,6 +2,7 @@
 namespace Piwik\Plugins\Organisations;
 
 use Piwik\Db;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 
 class API extends \Piwik\Plugin\API
@@ -87,7 +88,14 @@ class API extends \Piwik\Plugin\API
 
     private static function validateIpRanges($ipRanges)
     {
-        // @todo iterate through IP ranges and filter invalid ones
-        return $ipRanges;
+        $filteredIpRanges = array();
+
+        foreach ($ipRanges as $ipRange) {
+            if (IPUtils::getIPRangeBounds($ipRange)) {
+                $filteredIpRanges[] = $ipRange;
+            }
+        }
+
+        return $filteredIpRanges;
     }
 }
