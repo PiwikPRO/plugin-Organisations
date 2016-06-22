@@ -14,8 +14,8 @@ class Visitor
 
     public function getOrganisation()
     {
-        if (isset($this->details['location_provider'])) {
-            return $this->details['location_provider'];
+        if (isset($this->details['organisation'])) {
+            return $this->details['organisation'];
         }
         return 0;
     }

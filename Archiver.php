@@ -5,7 +5,7 @@ use Piwik\Metrics;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const ORGANISATIONS_RECORD_NAME = 'Organisations';
+    const ORGANISATIONS_RECORD_NAME = 'Organisations_all';
     const ORGANISATION_FIELD = "organisation";
 
     public function aggregateDayReport()

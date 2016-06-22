@@ -1,12 +1,31 @@
 <?php
 namespace Piwik\Plugins\Organisations;
 
+use Piwik\Archive;
 use Piwik\Db;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @param $segment
+     * @return \Piwik\DataTable|\Piwik\DataTable\Map
+     */
+    public function getOrganisation($idSite, $period, $date, $segment = false)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+        $archive = Archive::build($idSite, $period, $date, $segment);
+        $dataTable = $archive->getDataTable(Archiver::ORGANISATIONS_RECORD_NAME);
+        //$dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getPrettyProviderName'));
+        $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable->queueFilter('ReplaceSummaryRowLabel');
+        return $dataTable;
+    }
+
     /**
      * Adds an new organisation
      *
@@ -59,23 +78,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns a specific organisation
-     *
-     * @param int $idOrg
-     * @return array
-     */
-    public function getOrganisation($idOrg)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        return $this->getModel()->getOrganisation($idOrg);
-    }
-
-    /**
      * Returns the list of organisations
      *
      * @return array
      */
-    public function getOrganisations()
+    public function getAvailableOrganisations()
     {
         Piwik::checkUserHasSomeViewAccess();
         return $this->getModel()->getAll();
