@@ -1,5 +1,6 @@
 {
     "Organisations": {
+        "ErrorIpRangesEmpty": "Organisation must contain at least one valid IP range.",
         "Organisation": "Organisation",
         "Organisations": "Organisations",
         "OrganisationsManagement": "Manage organisations"

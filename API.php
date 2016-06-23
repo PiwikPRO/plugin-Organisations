@@ -1,6 +1,7 @@
 <?php
 namespace Piwik\Plugins\Organisations;
 
+use Exception;
 use Piwik\Archive;
 use Piwik\Db;
 use Piwik\Network\IPUtils;
@@ -44,12 +45,18 @@ class API extends \Piwik\Plugin\API
      * @param  string $name
      * @param  array $ipRanges
      * @return int
+     *
+     * @throws Exception  if no valid ip range was passed
      */
     public function addOrganisation($name, $ipRanges)
     {
         Piwik::checkUserHasSomeAdminAccess();
 
         $ipRanges = $this->validateIpRanges($ipRanges);
+
+        if (0 === count($ipRanges)) {
+            throw new Exception(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
+        }
 
         $idOrg = $this->getModel()->createOrganisation(array(
             'name'     => $name,
@@ -65,12 +72,18 @@ class API extends \Piwik\Plugin\API
      * @param int $idOrg
      * @param string $name
      * @param array $ipRanges
+     *
+     * @throws Exception  if no valid ip range was passed
      */
     public function updateOrganisation($idOrg, $name, $ipRanges)
     {
         Piwik::checkUserHasSomeAdminAccess();
 
         $ipRanges = $this->validateIpRanges($ipRanges);
+
+        if (0 === count($ipRanges)) {
+            throw new Exception(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
+        }
 
         $this->getModel()->updateOrganisation($idOrg, array(
             'name'     => $name,
@@ -105,7 +118,14 @@ class API extends \Piwik\Plugin\API
         return new Model();
     }
 
-    private static function validateIpRanges($ipRanges)
+
+    /**
+     * Removes invalid IP ranges from list.
+     *
+     * @param  array $ipRanges
+     * @return array
+     */
+    private function validateIpRanges($ipRanges)
     {
         $filteredIpRanges = array();
 
