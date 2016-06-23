@@ -1,5 +1,7 @@
 {
     "Organisations": {
-        "Organisation": "Organisation"
+        "Organisation": "Organisation",
+        "Organisations": "Organisations",
+        "OrganisationsManagement": "Manage organisations"
     }
 }
