@@ -1,0 +1,8 @@
+<div ng-controller="OrganisationsController" class="Organisations">
+    <div ng-include="'plugins/Organisations/templates/organisations-header.html?cb=' + cacheBuster" class="organisations-header"></div>
+    <div ng-include="'plugins/Organisations/templates/loading.html?cb=' + cacheBuster"></div>
+
+    <div ng-include="'plugins/Organisations/templates/organisations-list/add-organisation-link.html?cb=' + cacheBuster"></div>
+    <div ng-include="'plugins/Organisations/templates/organisations-list/organisations-list.html?cb=' + cacheBuster"></div>
+    <div ng-include="'plugins/Organisations/templates/organisations-list/add-organisation-link.html?cb=' + cacheBuster" class="bottomButtonBar"></div>
+</div>

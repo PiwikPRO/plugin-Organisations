@@ -3,5 +3,5 @@
 {% set title %}{{ 'Organisations_OrganisationsManagement'|translate }}{% endset %}
 
 {% block content %}
-
+    <div ng-include="'plugins/Organisations/templates/admin.html?cb={{ cacheBuster }}'"></div>
 {% endblock %}

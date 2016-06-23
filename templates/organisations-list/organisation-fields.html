@@ -1,0 +1,56 @@
+<div class="organisation" ng-class="{'editingOrganisation': organisation.editMode==true}">
+    <div class="row" ng-if="!organisation.editMode">
+        <div class="col-md-3">
+            <h4>{{ organisation.name }}</h4>
+        </div>
+
+        <div class="col-md-4">
+            <ul>
+                <li><span class="title">{{ 'Organisations_IpRanges'|translate }}</span>:</li>
+                <li>
+                    <span class="iprange"
+                          ng-repeat="iprange in organisation.ipranges">
+                        {{ iprange }} <br ng-if="!last" />
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-1 text-right">
+            <ul>
+                <li>
+                    <button class="btn btn-flat btn-lg" ng-click="editOrganisation()" title="{{ 'General_Edit'|translate }}">
+                        <span class="icon-edit"></span>
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-flat btn-lg" ng-show="organisation.idorg" ng-click="openDeleteDialog()" title="{{ 'General_Delete'|translate }}">
+                        <span class="icon-delete"></span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div ng-if="organisation.editMode">
+        <div class="form-group">
+            <label>{{ 'Organisations_Name'|translate }}</label>
+            <input type="text" ng-model="organisation.name" placeholder="{{ 'Organisations_NamePlaceholder'|translate }}" />
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'Organisations_IpRanges'|translate }}</label>
+            <div class="form-help">
+                {{ 'Organisations_IpRangesHelp' | translate }}
+            </div>
+            <div organisations-multiline-field
+                 field="organisation.ipranges" cols="25" rows="3"
+                 placeholder="{{ 'Organisations_IpRangesPlaceholder'|translate }}"></div>
+        </div>
+
+        <div class="editingOrganisationFooter">
+            <input type="submit" class="btn" value="{{ 'General_Save'|translate }}" ng-click="saveOrganisation()"/>
+            <button class="btn btn-link" ng-click="cancelEditOrganisation($event)">{{ 'General_Cancel' | translate:'':'' }}</button>
+        </div>
+    </div>
+</div>

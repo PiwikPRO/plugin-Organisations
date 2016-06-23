@@ -1,7 +1,16 @@
 {
     "Organisations": {
+        "AddOrganisation": "Add a new organisation",
+        "DeleteConfirm": "Are you sure you want to delete the organisation %s?",
         "ErrorIpRangesEmpty": "Organisation must contain at least one valid IP range.",
         "ErrorIpRangesOverlap": "IP Range \"%s\" overlaps with range \"%s\".",
+        "IpRanges": "IP Ranges",
+        "IpRangesHelp": "Please specify the IP ranges for this organisation, one per line.",
+        "IpRangesPlaceholder": "IP Ranges (one each line)",
+        "MainDescription": "Create new organisations or update the existing organisations and their associated IP ranges.",
+        "Name": "Name",
+        "NamePlaceholder": "Organisation name",
+        "OnlyOneOrganisationAtTime": "You can only edit one organisation at a time. Please Save or Cancel your current modifications to the organisation %s.",
         "Organisation": "Organisation",
         "Organisations": "Organisations",
         "OrganisationsManagement": "Manage organisations"

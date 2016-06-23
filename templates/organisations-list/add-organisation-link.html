@@ -1,0 +1,8 @@
+<div ng-show="!organisationIsBeingEdited" class="organisationsButtonBar clearfix">
+    <a ng-show="hasSuperUserAccess"
+       class="btn addOrganisation"
+       ng-click="addOrganisation()"
+       tabindex="1">
+        {{ 'Organisations_AddOrganisation'|translate }}
+    </a>
+</div>

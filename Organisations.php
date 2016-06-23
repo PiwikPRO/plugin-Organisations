@@ -12,8 +12,11 @@ class Organisations extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
-            'Live.getAllVisitorDetails'      => 'extendVisitorDetails'
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
+            'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -41,5 +44,34 @@ class Organisations extends \Piwik\Plugin
     public function install()
     {
         Model::install();
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'Organisations_AddOrganisation';
+        $translationKeys[] = 'Organisations_DeleteConfirm';
+        $translationKeys[] = 'Organisations_IpRanges';
+        $translationKeys[] = 'Organisations_IpRangesHelp';
+        $translationKeys[] = 'Organisations_IpRangesPlaceholder';
+        $translationKeys[] = 'Organisations_MainDescription';
+        $translationKeys[] = 'Organisations_Name';
+        $translationKeys[] = 'Organisations_NamePlaceholder';
+        $translationKeys[] = 'Organisations_OnlyOneOrganisationAtTime';
+        $translationKeys[] = 'Organisations_Organisations';
+        $translationKeys[] = 'Organisations_OrganisationsManagement';
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = 'plugins/Organisations/angularjs/organisations/multiline-field.directive.js';
+        $jsFiles[] = 'plugins/Organisations/angularjs/organisations/organisations.controller.js';
+        $jsFiles[] = 'plugins/Organisations/angularjs/organisations/organisations-admin-organisations-model.js';
+        $jsFiles[] = 'plugins/Organisations/angularjs/organisations/organisations-organisation.controller.js';
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = 'plugins/Organisations/stylesheets/Organisations.less';
+        $stylesheets[] = 'plugins/Morpheus/stylesheets/base.less';
     }
 }

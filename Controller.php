@@ -1,6 +1,7 @@
 <?php
 namespace Piwik\Plugins\Organisations;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -68,9 +69,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function adminIndex()
     {
         Piwik::checkUserHasSomeAdminAccess();
+
         $view = new View('@Organisations/admin');
+        $view->organisations = Request::processRequest('Organisations.getAvailableOrganisations');
+
         $this->setBasicVariablesView($view);
         $this->setBasicVariablesAdminView($view);
+
         return $view->render();
     }
 }

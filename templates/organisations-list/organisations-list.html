@@ -1,0 +1,9 @@
+<div class="organisationsList">
+    <div ng-repeat="organisation in adminOrganisations.organisations"
+         ng-include="'plugins/Organisations/templates/dialogs/dialogs.html?cb=' + cacheBuster"></div>
+
+    <div ng-controller="OrganisationsOrganisationController"
+         ng-repeat="organisation in adminOrganisations.organisations"
+         ng-include="'plugins/Organisations/templates/organisations-list/organisation-fields.html?cb=' + cacheBuster">
+    </div>
+</div>
