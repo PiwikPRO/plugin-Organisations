@@ -20,7 +20,14 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable(Archiver::ORGANISATIONS_RECORD_NAME);
-        //$dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getPrettyProviderName'));
+        $dataTable->filter('GroupBy', array('label', function($label){
+            $model = new Model();
+            $organisation = $model->getOrganisation($label);
+            if (!empty($organisation['name'])) {
+                return $organisation['name'];
+            }
+            return Piwik::translate('General_Unknown');
+        }));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         return $dataTable;
