@@ -38,7 +38,7 @@ class Organisation extends VisitDimension
             return 0;
         }
 
-        $model = new Model();
+        $model    = new Model();
         $ipRanges = $model->getIpRangeMapping();
 
         $ip = IP::fromStringIP($ip);
@@ -50,6 +50,17 @@ class Organisation extends VisitDimension
         }
 
         return 0;
+    }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
+    {
+        return $visitor->getVisitorColumn('organisation');
     }
 
     public function getName()

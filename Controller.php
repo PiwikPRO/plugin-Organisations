@@ -3,7 +3,9 @@ namespace Piwik\Plugins\Organisations;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -21,46 +23,44 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function getEvolutionGraph(array $columns = array(), array $defaultColumns = array())
     {
+        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Organisations.getOrganisation');
+
+        $view->config->add_total_row = false;
+
+        if (SettingsPiwik::isUniqueVisitorsEnabled(Common::getRequestVar('period', false))) {
+            $selectable = array('nb_visits', 'nb_uniq_visitors', 'nb_users', 'nb_actions');
+        } else {
+            $selectable = array('nb_visits', 'nb_actions');
+        }
+        $view->config->selectable_columns = $selectable;
+
+        // configure displayed columns
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns', false);
             if (false !== $columns) {
                 $columns = Piwik::getArrayFromApiParameter($columns);
             }
         }
-
-        $selectableColumns = array(
-            // columns from VisitsSummary.get
-            'nb_visits',
-            'nb_uniq_visitors',
-            'nb_users',
-            'avg_time_on_site',
-            'bounce_rate',
-            'nb_actions_per_visit',
-            'max_actions',
-            'nb_visits_converted',
-            // columns from Actions.get
-            'nb_pageviews',
-            'nb_uniq_pageviews',
-            'nb_downloads',
-            'nb_uniq_downloads',
-            'nb_outlinks',
-            'nb_uniq_outlinks',
-            'avg_time_generation'
-        );
-
-        $idSite = Common::getRequestVar('idSite');
-        $displaySiteSearch = Site::isSiteSearchEnabledFor($idSite);
-
-        if ($displaySiteSearch) {
-            $selectableColumns[] = 'nb_searches';
-            $selectableColumns[] = 'nb_keywords';
+        if (false !== $columns) {
+            $columns = !is_array($columns) ? array($columns) : $columns;
         }
-        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
-            $selectableColumns, false, 'Organisations.getOrganisation');
 
-        if (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
+        if (!empty($columns)) {
+            $view->config->columns_to_display = $columns;
+        } elseif (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
             $view->config->columns_to_display = $defaultColumns;
         }
+
+        // configure displayed rows
+        $visibleRows = Common::getRequestVar('rows', false);
+        if ($visibleRows !== false) {
+            // this happens when the row picker has been used
+            $visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
+            $view->config->custom_parameters['organisation'] = false;
+        }
+
+        $view->config->row_picker_match_rows_by = 'label';
+        $view->config->rows_to_display = $visibleRows;
 
         return $this->renderView($view);
     }

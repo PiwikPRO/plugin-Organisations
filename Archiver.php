@@ -10,8 +10,18 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::ORGANISATION_FIELD)->asDataTable();
-        $report = $metrics->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::ORGANISATION_FIELD);
+        $query = $this->getLogAggregator()->queryConversionsByDimension(array(self::ORGANISATION_FIELD));
+        if ($query === false) {
+            return;
+        }
+
+        while ($conversionRow = $query->fetch()) {
+            $metrics->sumMetricsGoals($conversionRow['label'], $conversionRow);
+        }
+        $metrics->enrichMetricsWithConversions();
+
+        $report = $metrics->asDataTable()->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::ORGANISATIONS_RECORD_NAME, $report);
     }
 
@@ -28,5 +38,25 @@ class Archiver extends \Piwik\Plugin\Archiver
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array()
         );
+    }
+
+    protected function aggregateFromConversions($dimensions)
+    {
+        $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions);
+        if ($query === false) {
+            return;
+        }
+        while ($row = $query->fetch()) {
+            $this->makeReferrerTypeNonEmpty($row);
+
+            $skipAggregateByType = $this->aggregateConversionRow($row);
+            if (!$skipAggregateByType) {
+                $this->getDataArray(self::REFERRER_TYPE_RECORD_NAME)->sumMetricsGoals($row['referer_type'], $row);
+            }
+        }
+
+        foreach ($this->arrays as $dataArray) {
+            $dataArray->enrichMetricsWithConversions();
+        }
     }
 }
