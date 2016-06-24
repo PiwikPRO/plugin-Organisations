@@ -27,7 +27,9 @@ class Visitor
         if (is_numeric($orgId)) {
             $model        = new Model();
             $organisation = $model->getOrganisation($orgId);
-            return $organisation['name'];
+            if (!empty($organisation['name'])) {
+                return $organisation['name'];
+            }
         }
 
         return Piwik::translate('General_Unknown');

@@ -18,7 +18,7 @@ class Model
     public function getAll()
     {
         $organisations = $this->getDb()->fetchAll('SELECT * FROM ' . $this->table);
-        foreach ($organisations as $organisation) {
+        foreach ($organisations as &$organisation) {
             $organisation['ipranges'] = $this->splitIpRanges($organisation['ipranges']);
         }
         return $organisations;

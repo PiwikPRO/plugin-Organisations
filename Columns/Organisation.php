@@ -2,6 +2,7 @@
 namespace Piwik\Plugins\Organisations\Columns;
 
 use Piwik\Network\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Organisations\Model;
@@ -9,6 +10,7 @@ use Piwik\Plugins\Resolution\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 class Organisation extends VisitDimension
 {
@@ -32,7 +34,7 @@ class Organisation extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $ip = $visitor->getVisitorColumn('location_ip');
+        $ip = $this->getIpAddress($visitor->getVisitorColumn('location_ip'), $request);
 
         if (empty($ip)) {
             return 0;
@@ -66,5 +68,20 @@ class Organisation extends VisitDimension
     public function getName()
     {
         return Piwik::translate('Organisations_Organisation');
+    }
+
+    private function getIpAddress($anonymizedIp, \Piwik\Tracker\Request $request)
+    {
+        $privacyConfig = new PrivacyManagerConfig();
+
+        $ip = $request->getIp();
+
+        if ($privacyConfig->useAnonymizedIpForVisitEnrichment) {
+            $ip = $anonymizedIp;
+        }
+
+        $ipAddress = IPUtils::binaryToStringIP($ip);
+
+        return $ipAddress;
     }
 }

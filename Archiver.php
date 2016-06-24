@@ -17,7 +17,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         while ($conversionRow = $query->fetch()) {
-            $metrics->sumMetricsGoals($conversionRow['label'], $conversionRow);
+            $metrics->sumMetricsGoals($conversionRow['organisation'], $conversionRow);
         }
         $metrics->enrichMetricsWithConversions();
 
@@ -38,25 +38,5 @@ class Archiver extends \Piwik\Plugin\Archiver
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array()
         );
-    }
-
-    protected function aggregateFromConversions($dimensions)
-    {
-        $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions);
-        if ($query === false) {
-            return;
-        }
-        while ($row = $query->fetch()) {
-            $this->makeReferrerTypeNonEmpty($row);
-
-            $skipAggregateByType = $this->aggregateConversionRow($row);
-            if (!$skipAggregateByType) {
-                $this->getDataArray(self::REFERRER_TYPE_RECORD_NAME)->sumMetricsGoals($row['referer_type'], $row);
-            }
-        }
-
-        foreach ($this->arrays as $dataArray) {
-            $dataArray->enrichMetricsWithConversions();
-        }
     }
 }
