@@ -46,6 +46,7 @@ class API extends \Piwik\Plugin\API
      * @param  array $ipRanges
      * @return int
      *
+     * @throws Exception  if ip ranges overlap
      * @throws Exception  if no valid ip range was passed
      */
     public function addOrganisation($name, $ipRanges)
@@ -73,6 +74,7 @@ class API extends \Piwik\Plugin\API
      * @param string $name
      * @param array $ipRanges
      *
+     * @throws Exception  if ip ranges overlap
      * @throws Exception  if no valid ip range was passed
      */
     public function updateOrganisation($idOrg, $name, $ipRanges)
@@ -122,16 +124,49 @@ class API extends \Piwik\Plugin\API
     /**
      * Removes invalid IP ranges from list.
      *
+     * The overlap checking is not done across organisations!
+     *
      * @param  array $ipRanges
      * @return array
+     * @throws Exception  if ip ranges overlap
      */
     private function validateIpRanges($ipRanges)
     {
         $filteredIpRanges = array();
+        $boundedIpRanges  = array();
 
         foreach ($ipRanges as $ipRange) {
-            if (IPUtils::getIPRangeBounds($ipRange)) {
+            $bounds = IPUtils::getIPRangeBounds($ipRange);
+
+            if ($bounds) {
                 $filteredIpRanges[] = $ipRange;
+                $boundedIpRanges[]  = array(
+                    'range'  => $ipRange,  // used for exception message
+                    'bounds' => $bounds    // used for bound checking
+                );
+            }
+        }
+
+        // skip check for bound overlapping if less than two ranges available
+        if (2 > count($filteredIpRanges)) {
+            return $filteredIpRanges;
+        }
+
+        usort($boundedIpRanges, function($a, $b) {
+            return strcmp($a['bounds'][0], $b['bounds'][0]);
+        });
+
+        for ($i = 0; $i < count($boundedIpRanges) - 1; $i += 1) {
+            $a = $boundedIpRanges[$i];
+            $b = $boundedIpRanges[$i + 1];
+
+            if ($a['bounds'][1] >= $b['bounds'][0]) {
+                throw new Exception(
+                    Piwik::translate(
+                        'Organisations_ErrorIpRangesOverlap',
+                        array($b['range'], $a['range'])
+                    )
+                );
             }
         }
 

@@ -34,6 +34,27 @@ class APITest extends IntegrationTestCase
         $this->api->addOrganisation('no-valid-ip-range', [ '999.999.999.999' ]);
     }
 
+    /**
+     * @expectedException \Exception
+     */
+    public function test_addOrganisation_throws_whenIPRangesOverlap()
+    {
+        $this->api->addOrganisation('overlapping-ip-range', [
+            '8.8.8.8/32',
+            '10.10.10.0/24', // overlap
+            '10.0.0.0/8',    // overlap
+            '127.*.*.*'
+        ]);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_addOrganisation_throws_whenIPRangesAreDuplicateTriggeringOverlap()
+    {
+        $this->api->addOrganisation('overlapping-ip-range', [ '10.10.10.42/32', '10.10.10.42/32' ]);
+    }
+
 
     /**
      * @expectedException \Exception
@@ -41,5 +62,26 @@ class APITest extends IntegrationTestCase
     public function test_updateOrganisaion_throws_whenNoValidIPRangePassed()
     {
         $this->api->updateOrganisation(1, 'no-valid-ip-range', [ '999.999.999.999' ]);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_updateOrganisation_throws_whenIPRangesOverlap()
+    {
+        $this->api->updateOrganisation(1, 'overlapping-ip-range', [
+            '8.8.8.8/32',
+            '10.10.10.0/24', // overlap
+            '10.0.0.0/8',    // overlap
+            '127.*.*.*'
+        ]);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_updateOrganisation_throws_whenIPRangesAreDuplicateTriggeringOverlap()
+    {
+        $this->api->updateOrganisation(1, 'overlapping-ip-range', [ '10.10.10.42/32', '10.10.10.42/32' ]);
     }
 }
