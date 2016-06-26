@@ -94,9 +94,10 @@ class Model
         $cacheContent = $cache->getCacheGeneral();
 
         if (!array_key_exists(self::TRACKER_CACHE_KEY, $cacheContent)) {
-            return 0;
+            $ipRanges = $this->getIpRangeMapping();
+        } else {
+            $ipRanges = $cacheContent[self::TRACKER_CACHE_KEY];
         }
-        $ipRanges = $cacheContent[self::TRACKER_CACHE_KEY];
 
         $ip = IP::fromStringIP($ip);
 
