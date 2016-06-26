@@ -22,7 +22,7 @@ class Organisation extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('organisation');
         $segment->setName('Organisations_Organisation');
-        // @todo Set accepted values based on the save organisations
+        // @todo Set accepted values based on the saved organisations
         $this->addSegment($segment);
     }
 
@@ -41,17 +41,8 @@ class Organisation extends VisitDimension
         }
 
         $model    = new Model();
-        $ipRanges = $model->getIpRangeMapping();
+        return $model->getOrganisationFromIp($ip);
 
-        $ip = IP::fromStringIP($ip);
-
-        foreach ($ipRanges as $ipRange => $orgId) {
-            if ($ip->isInRange($ipRange)) {
-                return $orgId;
-            }
-        }
-
-        return 0;
     }
 
     /**

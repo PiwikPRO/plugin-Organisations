@@ -4,9 +4,12 @@ namespace Piwik\Plugins\Organisations;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Network\IP;
+use Piwik\Tracker\Cache;
 
 class Model
 {
+    const TRACKER_CACHE_KEY = 'organisationMapping';
     private static $rawPrefix = 'organisation';
     private $table;
 
@@ -57,9 +60,13 @@ class Model
         return $nextId;
     }
 
-    public function getIpRangeMapping()
+    /**
+     * Returns IP range mapping for organisations
+     *
+     * @return array
+     */
+    private function getIpRangeMapping()
     {
-        // @todo implement caching (tracker cache)
         $ipRanges = array();
         $organisations = $this->getAll();
         foreach ($organisations as $organisation) {
@@ -69,6 +76,49 @@ class Model
         }
 
         return $ipRanges;
+    }
+
+    /**
+     * Return organisation id based on the given IP
+     *
+     * Tracker cache is used to get ip mapping
+     *
+     * @param string $ip
+     * @return int
+     */
+    public function getOrganisationFromIp($ip)
+    {
+        $cache = new Cache();
+        $cacheContent = $cache->getCacheGeneral();
+
+        if (!array_key_exists(self::TRACKER_CACHE_KEY, $cacheContent)) {
+            return 0;
+        }
+        $ipRanges = $cacheContent[self::TRACKER_CACHE_KEY];
+
+        $ip = IP::fromStringIP($ip);
+
+        foreach ($ipRanges as $ipRange => $orgId) {
+            if ($ip->isInRange($ipRange)) {
+                return $orgId;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * Used to set IP range to organisation mapping to Tracker Cache
+     *
+     * @see Organisations::setTrackerCacheGeneral
+     *
+     * @param $cacheContent
+     * @return mixed
+     */
+    public function setTrackerCache($cacheContent)
+    {
+        $cacheContent[self::TRACKER_CACHE_KEY] = $this->getIpRangeMapping();
+        return $cacheContent;
     }
 
     /**
