@@ -5,11 +5,13 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Network\IP;
+use Piwik\Option;
 use Piwik\Tracker\Cache;
 
 class Model
 {
     const TRACKER_CACHE_KEY = 'organisationMapping';
+    const OPTION_KEY = 'Organisations.hashed';
     private static $rawPrefix = 'organisation';
     private $table;
 
@@ -119,6 +121,29 @@ class Model
     {
         $cacheContent[self::TRACKER_CACHE_KEY] = $this->getIpRangeMapping();
         return $cacheContent;
+    }
+
+    /**
+     * Clears the tracker cache if there were changes
+     *
+     * Uses a md5-hash over all organisation data save in opton table to identify changes
+     *
+     * @return boolean
+     */
+    public function clearTrackerCacheIfRequired()
+    {
+        $cachedHashed = Option::get(self::OPTION_KEY);
+
+        $allOrganisations = $this->getAll();
+        $hashedOrganisations = md5(serialize($allOrganisations));
+
+        if ($cachedHashed != $hashedOrganisations) {
+            Cache::clearCacheGeneral();
+            Option::set(self::OPTION_KEY, $hashedOrganisations);
+            return true;
+        }
+
+        return false;
     }
 
     /**
