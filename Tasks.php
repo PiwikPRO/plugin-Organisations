@@ -5,7 +5,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
-        $this->daily('clearOrganisationCache'); // clear cache once a day
+        $this->daily('clearOrganisationCache'); // clear cache at least once a day if required
     }
 
     /**

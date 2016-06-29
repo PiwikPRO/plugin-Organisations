@@ -11,15 +11,20 @@ use Piwik\Tracker\Cache;
 class Model
 {
     const TRACKER_CACHE_KEY = 'organisationMapping';
-    const OPTION_KEY = 'Organisations.hashed';
+    const OPTION_KEY        = 'Organisations.hashed';
     private static $rawPrefix = 'organisation';
-    private $table;
+    private        $table;
 
     public function __construct()
     {
         $this->table = Common::prefixTable(self::$rawPrefix);
     }
 
+    /**
+     * Return all organisations
+     *
+     * @return array
+     */
     public function getAll()
     {
         $organisations = $this->getDb()->fetchAll('SELECT * FROM ' . $this->table);
@@ -29,10 +34,17 @@ class Model
         return $organisations;
     }
 
+    /**
+     * Returns the organisation with the given id
+     *
+     * @param int $idOrg organisation id to read
+     * @return array
+     * @throws \Exception
+     */
     public function getOrganisation($idOrg)
     {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE idorg = ?';
-        $bind  = array($idOrg);
+        $query        = 'SELECT * FROM ' . $this->table . ' WHERE idorg = ?';
+        $bind         = array($idOrg);
         $organisation = Db::fetchRow($query, $bind);
         if ($organisation && array_key_exists('ipranges', $organisation)) {
             $organisation['ipranges'] = $this->splitIpRanges($organisation['ipranges']);
@@ -40,6 +52,12 @@ class Model
         return $organisation;
     }
 
+    /**
+     * Removes the organisation with the given id
+     *
+     * @param int $idOrg organisation id to remove
+     * @throws \Exception
+     */
     public function deleteOrganisation($idOrg)
     {
         $query = 'DELETE FROM ' . $this->table . ' WHERE idorg = ?';
@@ -47,16 +65,28 @@ class Model
         Db::query($query, $bind);
     }
 
+    /**
+     * Updates the organisation with the given id and data
+     *
+     * @param int $idOrg organisation id to update
+     * @param array $organisation data to update
+     */
     public function updateOrganisation($idOrg, $organisation)
     {
         $organisation['ipranges'] = $this->combineIpRanges($organisation['ipranges']);
-        $this->getDb()->update($this->table, $organisation, "idorg = " . (int) $idOrg);
+        $this->getDb()->update($this->table, $organisation, "idorg = " . (int)$idOrg);
     }
 
+    /**
+     * Creates a new organisation with the given data
+     *
+     * @param array $organisation organisation data
+     * @return int
+     */
     public function createOrganisation($organisation)
     {
-        $nextId = $this->getNextOrganisationId();
-        $organisation['idorg'] = $nextId;
+        $nextId                   = $this->getNextOrganisationId();
+        $organisation['idorg']    = $nextId;
         $organisation['ipranges'] = $this->combineIpRanges($organisation['ipranges']);
 
         $this->getDb()->insert($this->table, $organisation);
@@ -71,7 +101,7 @@ class Model
      */
     private function getIpRangeMapping()
     {
-        $ipRanges = array();
+        $ipRanges      = array();
         $organisations = $this->getAll();
         foreach ($organisations as $organisation) {
             foreach ($organisation['ipranges'] as $ipRange) {
@@ -92,7 +122,7 @@ class Model
      */
     public function getOrganisationFromIp($ip)
     {
-        $cache = new Cache();
+        $cache        = new Cache();
         $cacheContent = $cache->getCacheGeneral();
 
         if (!array_key_exists(self::TRACKER_CACHE_KEY, $cacheContent)) {
@@ -137,7 +167,7 @@ class Model
     {
         $cachedHashed = Option::get(self::OPTION_KEY);
 
-        $allOrganisations = $this->getAll();
+        $allOrganisations    = $this->getAll();
         $hashedOrganisations = md5(serialize($allOrganisations));
 
         if ($cachedHashed != $hashedOrganisations) {
@@ -169,7 +199,7 @@ class Model
 
     private function getNextOrganisationId()
     {
-        $db = $this->getDb();
+        $db       = $this->getDb();
         $idReport = $db->fetchOne("SELECT max(idorg) + 1 FROM " . $this->table);
 
         if ($idReport == false) {
@@ -184,6 +214,9 @@ class Model
         return Db::get();
     }
 
+    /**
+     * Installs the required database table
+     */
     public static function install()
     {
         $orgTable = "`idorg` INT(11) NOT NULL,

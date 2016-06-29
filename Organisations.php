@@ -12,8 +12,8 @@ class Organisations extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'Tracker.setTrackerCacheGeneral'  => 'setTrackerCacheGeneral',
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
+            'Live.getAllVisitorDetails'      => 'extendVisitorDetails'
         );
     }
 
@@ -24,6 +24,12 @@ class Organisations extends \Piwik\Plugin
         return $model->setTrackerCache($cacheContent);
     }
 
+    /**
+     * Extends visitor details with organisation related information
+     *
+     * @param array $visitor
+     * @param array $details
+     */
     public function extendVisitorDetails(&$visitor, $details)
     {
         $instance = new Visitor($details);

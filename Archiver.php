@@ -8,6 +8,11 @@ class Archiver extends \Piwik\Plugin\Archiver
     const ORGANISATIONS_RECORD_NAME = 'Organisations_all';
     const ORGANISATION_FIELD = "organisation";
 
+    /**
+     * Aggregates reports for a single day
+     *
+     * @throws \Exception
+     */
     public function aggregateDayReport()
     {
         $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::ORGANISATION_FIELD);
@@ -34,7 +39,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->maximumRows,
             $maximumRowsInSubDataTable = null,
             $columnToSortByBeforeTruncation = null,
-            $columnsAggregationOperation,
+            $columnsAggregationOperation = null,
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array()
         );

@@ -12,6 +12,11 @@ class Visitor
         $this->details = $details;
     }
 
+    /**
+     * Returns organisation id
+     *
+     * @return array|int
+     */
     public function getOrganisation()
     {
         if (isset($this->details['organisation'])) {
@@ -20,6 +25,11 @@ class Visitor
         return 0;
     }
 
+    /**
+     * Returns organisation name or 'Unknown' if none is found
+     *
+     * @return string
+     */
     public function getOrganisationName()
     {
         $orgId = $this->getOrganisation();
