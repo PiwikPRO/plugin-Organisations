@@ -2,7 +2,8 @@
 
 ## Description
 
-This plugin allows to associate visitors with configurable organisations based on their IP.
+This plugin allows to associate visitors with configurable organisations based on their IP. 
+(Or you may use it to build other named groups based on the users IP.)
 
 Organisations can be defined piwik wide within the admin ui. Each organisation will be identified by an id and will contain a name and ip ranges.
 Configured IP ranges can't overlap as they will be checked before saving them.
@@ -18,7 +19,7 @@ To speed up the detection the IP ranges are cached in a better processable forma
 
 ### Features
 
-- Create/Update organisation information (name / IP ranges)
+- Manage ([CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)) organisation information (name / IP ranges)
 - View reports based on organisation data (including goal metrics)
 - Possibility to create segments based on an organisation
 
