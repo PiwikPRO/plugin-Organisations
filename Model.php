@@ -34,7 +34,9 @@ class Model
         $query = 'SELECT * FROM ' . $this->table . ' WHERE idorg = ?';
         $bind  = array($idOrg);
         $organisation = Db::fetchRow($query, $bind);
-        $organisation['ipranges'] = $this->splitIpRanges($organisation['ipranges']);
+        if ($organisation && array_key_exists('ipranges', $organisation)) {
+            $organisation['ipranges'] = $this->splitIpRanges($organisation['ipranges']);
+        }
         return $organisation;
     }
 
