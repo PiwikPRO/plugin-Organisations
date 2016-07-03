@@ -147,20 +147,101 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        // skip check for bound overlapping if less than two ranges available
-        if (2 > count($filteredIpRanges)) {
-            return $filteredIpRanges;
-        }
-
         usort($boundedIpRanges, function($a, $b) {
             return strcmp($a['bounds'][0], $b['bounds'][0]);
         });
 
-        for ($i = 0; $i < count($boundedIpRanges) - 1; $i += 1) {
-            $a = $boundedIpRanges[$i];
-            $b = $boundedIpRanges[$i + 1];
+        $this->checkForInternalOverlap($boundedIpRanges);
+        $this->checkForGlobalOverlap($boundedIpRanges);
 
-            if ($a['bounds'][1] >= $b['bounds'][0]) {
+        return $filteredIpRanges;
+    }
+
+    /**
+     * Checks if the ip ranges of an organsation overlap with a different one.
+     *
+     * @param array $ipRanges
+     *
+     * @throws Exception  if ip ranges overlap
+     */
+    private function checkForGlobalOverlap($ipRanges)
+    {
+        if (0 === count($ipRanges)) {
+            // skip check if there is ip range
+            return;
+        }
+
+        $orgLowest  = $ipRanges[0]['bounds'][0];
+        $orgHighest = $ipRanges[count($ipRanges) - 1]['bounds'][1];
+
+        $organisations  = $this->getAvailableOrganisations();
+        $globalIpRanges = array();
+
+        if (0 === count($organisations)) {
+            // skip check if there are no other organisations
+            return;
+        }
+
+        foreach ($organisations as $organisation) {
+            foreach ($organisation['ipranges'] as $ipRange) {
+                $bounds = IPUtils::getIPRangeBounds($ipRange);
+
+                // completely below organisation range
+                if (0 < strcmp($orgLowest, $bounds[1])) {
+                    continue;
+                }
+
+                // completely above organisation range
+                if (0 > strcmp($orgHighest, $bounds[0])) {
+                    continue;
+                }
+
+                $globalIpRanges[] = array(
+                    'name'   => $organisation['name'],  // used for exception message
+                    'range'  => $ipRange,               // used for exception message
+                    'bounds' => $bounds                 // used for bound checking
+                );
+            }
+        }
+
+        // skip check if no overlap possible
+        if (0 === count($globalIpRanges)) {
+            return;
+        }
+
+        foreach ($ipRanges as $ipRange) {
+            foreach ($globalIpRanges as $globalIpRange) {
+                if (0 <= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][0])) {
+                    throw new Exception(
+                        Piwik::translate(
+                            'Organisations_ErrorIpRangesOverlapGlobal',
+                            array($ipRange['range'], $globalIpRange['range'], $globalIpRange['name'])
+                        )
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if the ip ranges inside one organisation overlap.
+     *
+     * @param array $ipRanges
+     *
+     * @throws Exception  if ip ranges overlap
+     */
+    private function checkForInternalOverlap($ipRanges)
+    {
+        if (1 >= count($ipRanges)) {
+            // skip check if there is not more than one ip ranges
+            return;
+        }
+
+        for ($i = 0; $i < count($ipRanges) - 1; $i += 1) {
+            $a = $ipRanges[$i];
+            $b = $ipRanges[$i + 1];
+
+            if (0 <= strcmp($a['bounds'][1], $b['bounds'][0])) {
                 throw new Exception(
                     Piwik::translate(
                         'Organisations_ErrorIpRangesOverlap',
@@ -169,7 +250,5 @@ class API extends \Piwik\Plugin\API
                 );
             }
         }
-
-        return $filteredIpRanges;
     }
 }

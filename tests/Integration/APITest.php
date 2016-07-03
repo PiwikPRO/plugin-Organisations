@@ -84,4 +84,33 @@ class APITest extends IntegrationTestCase
     {
         $this->api->updateOrganisation(1, 'overlapping-ip-range', [ '10.10.10.42/32', '10.10.10.42/32' ]);
     }
+
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_exception_thrown_whenIPRangesOverlapAcrossOrganisations_inside()
+    {
+        $this->api->addOrganisation('existing-ip-range', [
+            '20.0.0.0/8'
+        ]);
+
+        $this->api->addOrganisation('overlapping-ip-range', [
+            '20.10.0.0/16'
+        ]);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_exception_thrown_whenIPRangesOverlapAcrossOrganisations_outside()
+    {
+        $this->api->addOrganisation('existing-ip-range', [
+            '30.30.0.0/16'
+        ]);
+
+        $this->api->addOrganisation('overlapping-ip-range', [
+            '30.0.0.0/8'
+        ]);
+    }
 }
