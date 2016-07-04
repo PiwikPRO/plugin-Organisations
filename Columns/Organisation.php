@@ -22,7 +22,29 @@ class Organisation extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('organisation');
         $segment->setName('Organisations_Organisation');
-        // @todo Set accepted values based on the saved organisations
+
+        $model = new Model();
+        $organisationNames = array(
+            0 => Piwik::translate('General_Unknown')
+        );
+        $organisations = $model->getAll();
+        foreach ($organisations as $organisation) {
+            $organisationNames[$organisation['idorg']] = $organisation['name'];
+        }
+
+        $segment->setAcceptedValues(implode(', ', $organisationNames));
+        $segment->setSuggestedValuesCallback(function() use ($organisationNames) { return $organisationNames; });
+        $segment->setSqlFilter(function ($org) use ($organisationNames) {
+            if ($org == Piwik::translate('General_Unknown')) {
+                return 0;
+            }
+            $index = array_search(trim(urldecode($org)), $organisationNames);
+            if ($index === false) {
+                throw new \Exception("organisation segment must be one of: " . implode(', ', $organisationNames));
+            }
+            return $index;
+        });
+
         $this->addSegment($segment);
     }
 
