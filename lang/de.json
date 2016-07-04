@@ -1,0 +1,19 @@
+{
+    "Organisations": {
+        "AddOrganisation": "Neue Organisation hinzufügen",
+        "DeleteConfirm": "Sind Sie sicher, dass Sie die Organisation %s löschen möchten?",
+        "ErrorIpRangesEmpty": "Eine Organisation muss mindestens eine gültigen gültigen IP-Bereich enthalten.",
+        "ErrorIpRangesOverlap": "IP-Bereich \"%s\" überschneidet sich mit dem IP-Bereich \"%s\".",
+        "ErrorIpRangesOverlapGlobal": "IP-Bereich \"%s\" überschneidet sich mit dem IP-Bereich \"%s\" der Organisation \"%s\".",
+        "IpRanges": "IP-Bereiche",
+        "IpRangesHelp": "Bitte spezifizieren Sie die IP-Bereiche der Organisation. Eine pro Zeile.",
+        "IpRangesPlaceholder": "IP-Bereiche (eine pro Zeile)",
+        "MainDescription": "Neue Organisation erstellen oder bestehende Organisation und deren zugeordnete IP-Bereiche aktualisieren.",
+        "Name": "Name",
+        "NamePlaceholder": "Name der Organisation",
+        "OnlyOneOrganisationAtTime": "Sie können nur eine Organisation zeitgleich bearbeiten. Bitte speichern oder verwerfen Sie die aktuellen Änderungen an der Organisation %s.",
+        "Organisation": "Organisation",
+        "Organisations": "Organisationen",
+        "OrganisationsManagement": "Organisationen verwalten"
+    }
+}
