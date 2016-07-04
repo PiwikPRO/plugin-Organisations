@@ -97,5 +97,12 @@ class TrackVisitsWithOrganisationsFixture extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(9)->getDatetime());
         $t->setUrl('http://example.com/');
         self::checkResponse($t->doTrackPageView('Viewing homepage'));
+
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t->setIp('fe80:0000:0000:0000:0202:b3ff:fe1e:8329'); // no matching organisation
+        $t->setCustomTrackingParameter('idorg', 1); // force idorg (Popular Organisation) as custom tracking param
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
+        $t->setUrl('http://example.com/');
+        self::checkResponse($t->doTrackPageView('Viewing homepage'));
     }
 }

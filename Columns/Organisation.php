@@ -34,13 +34,23 @@ class Organisation extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        $model    = new Model();
+
+        // check for forced organisation id in request
+        $rawRequestParams = $request->getRawParams();
+        if (isset($rawRequestParams['idorg'])) {
+            $org = $model->getOrganisation($rawRequestParams['idorg']);
+            if (!empty($org)) {
+                return $rawRequestParams['idorg'];
+            }
+        }
+
         $ip = $this->getIpAddress($visitor->getVisitorColumn('location_ip'), $request);
 
         if (empty($ip)) {
             return 0;
         }
 
-        $model    = new Model();
         return $model->getOrganisationFromIp($ip);
 
     }

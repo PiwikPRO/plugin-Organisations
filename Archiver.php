@@ -39,7 +39,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->maximumRows,
             $maximumRowsInSubDataTable = null,
             $columnToSortByBeforeTruncation = null,
-            $columnsAggregationOperation = null,
+            $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array()
         );

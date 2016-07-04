@@ -22,6 +22,7 @@ To speed up the detection the IP ranges are cached in a better processable forma
 - Manage ([CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)) organisation information (name / IP ranges)
 - View reports based on organisation data (including goal metrics)
 - Possibility to create segments based on an organisation
+- Possibility to force organisation in tracking request using `idorg` param
 
 ## Changelog
 
