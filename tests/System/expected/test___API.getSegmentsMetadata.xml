@@ -169,6 +169,7 @@
 		<category>Visit</category>
 		<name>Organisation</name>
 		<segment>organisation</segment>
+		<acceptedValues>Unknown, Popular Organisation, World Foundation</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
