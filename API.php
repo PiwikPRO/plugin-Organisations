@@ -53,7 +53,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $ipRanges = $this->validateIpRanges($ipRanges);
+        $ipRanges = $this->validateIpRanges($ipRanges, null);
 
         if (0 === count($ipRanges)) {
             throw new Exception(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
@@ -81,7 +81,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $ipRanges = $this->validateIpRanges($ipRanges);
+        $ipRanges = $this->validateIpRanges($ipRanges, $ignoreIdOrg = $idOrg);
 
         if (0 === count($ipRanges)) {
             throw new Exception(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
@@ -127,10 +127,11 @@ class API extends \Piwik\Plugin\API
      * The overlap checking is not done across organisations!
      *
      * @param  array $ipRanges
+     * @param  int   $ignoreIdOrg
      * @return array
      * @throws Exception  if ip ranges overlap
      */
-    private function validateIpRanges($ipRanges)
+    private function validateIpRanges($ipRanges, $ignoreIdOrg = null)
     {
         $filteredIpRanges = array();
         $boundedIpRanges  = array();
@@ -152,7 +153,7 @@ class API extends \Piwik\Plugin\API
         });
 
         $this->checkForInternalOverlap($boundedIpRanges);
-        $this->checkForGlobalOverlap($boundedIpRanges);
+        $this->checkForGlobalOverlap($boundedIpRanges, $ignoreIdOrg);
 
         return $filteredIpRanges;
     }
@@ -161,10 +162,11 @@ class API extends \Piwik\Plugin\API
      * Checks if the ip ranges of an organsation overlap with a different one.
      *
      * @param array $ipRanges
+     * @param int   $ignoreIdOrg
      *
      * @throws Exception  if ip ranges overlap
      */
-    private function checkForGlobalOverlap($ipRanges)
+    private function checkForGlobalOverlap($ipRanges, $ignoreIdOrg = null)
     {
         if (0 === count($ipRanges)) {
             // skip check if there is ip range
@@ -183,6 +185,11 @@ class API extends \Piwik\Plugin\API
         }
 
         foreach ($organisations as $organisation) {
+            if (null !== $ignoreIdOrg && $ignoreIdOrg == $organisation['idorg']) {
+                // ignore "own" organisation on update
+                continue;
+            }
+
             foreach ($organisation['ipranges'] as $ipRange) {
                 $bounds = IPUtils::getIPRangeBounds($ipRange);
 

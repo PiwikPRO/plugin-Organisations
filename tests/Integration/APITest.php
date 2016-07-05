@@ -77,6 +77,7 @@ class APITest extends IntegrationTestCase
         ]);
     }
 
+
     /**
      * @expectedException \Exception
      */
@@ -112,5 +113,13 @@ class APITest extends IntegrationTestCase
         $this->api->addOrganisation('overlapping-ip-range', [
             '30.0.0.0/8'
         ]);
+    }
+
+    public function test_updateOrganisation_doesNotTriggerOverlapForItself()
+    {
+        $name  = 'update-overlapping';
+        $idOrg = $this->api->addOrganisation($name, [ '8.8.8.0/24' ]);
+
+        $this->api->updateOrganisation($idOrg, $name, [ '8.8.8.8/32' ]);
     }
 }
