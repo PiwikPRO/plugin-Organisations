@@ -122,4 +122,20 @@ class APITest extends IntegrationTestCase
 
         $this->api->updateOrganisation($idOrg, $name, [ '8.8.8.8/32' ]);
     }
+
+    public function test_something()
+    {
+        $orgId1 = $this->api->addOrganisation('first org', [
+            '139.191.16.0/24'
+        ]);
+
+        $orgId2 = $this->api->addOrganisation('secod org', [
+            '139.191.8.0/24'
+        ]);
+
+        $this->api->updateOrganisation($orgId1, 'updated org', [
+            '139.191.16.0/24',
+            '86.169.0.0/16'
+        ]);
+    }
 }

@@ -218,7 +218,9 @@ class API extends \Piwik\Plugin\API
 
         foreach ($ipRanges as $ipRange) {
             foreach ($globalIpRanges as $globalIpRange) {
-                if (0 <= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][0])) {
+                if ((0 <= strcmp($ipRange['bounds'][0], $globalIpRange['bounds'][0]) && 0 >= strcmp($ipRange['bounds'][0], $globalIpRange['bounds'][1])) ||
+                    (0 <= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][0]) && 0 >= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][1])) ||
+                    (0 >= strcmp($ipRange['bounds'][0], $globalIpRange['bounds'][0]) && 0 <= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][1]))) {
                     throw new Exception(
                         Piwik::translate(
                             'Organisations_ErrorIpRangesOverlapGlobal',
