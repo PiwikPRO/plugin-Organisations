@@ -70,10 +70,24 @@ describe("Organisations", function () {
         }, done);
     });
 
-    it('should show update form', function (done) {
+    it('should update organisation', function (done) {
         expect.screenshot('admin_update_success').to.be.captureSelector('#content', function (page) {
             page.click('input[type=submit]');
         }, done);
     });
+
+    it('should show delete confirmation', function (done) {
+        expect.screenshot('admin_delete_confirmation').to.be.captureSelector('.ui-dialog', function (page) {
+            page.load("?module=Organisations&action=adminIndex");
+            page.click('[ng-click="openDeleteDialog()"]:nth-child(1)');
+        }, done);
+    });
+
+    it('should delete organisation', function (done) {
+        expect.screenshot('admin_delete_success').to.be.captureSelector('#content', function (page) {
+            page.click('.ui-dialog button>span:contains(Yes)');
+        }, done);
+    });
+
 
 });

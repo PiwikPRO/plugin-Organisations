@@ -1,5 +1,9 @@
 <div class="organisation" ng-class="{'editingOrganisation': organisation.editMode==true}">
     <div class="row" ng-if="!organisation.editMode">
+        <div class="col-md-1">
+            <span>{{ organisation.idorg }}</span>
+        </div>
+
         <div class="col-md-3">
             <h4>{{ organisation.name }}</h4>
         </div>
