@@ -28,3 +28,6 @@ To speed up the detection the IP ranges are cached in a better processable forma
 
 - 1.0 Initial release
 
+## License
+
+- GPL v3 or later
