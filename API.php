@@ -1,29 +1,19 @@
 <?php
-/*
- *  Piwik - free/libre analytics platform
-
- *  Piwik is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
-
- *  Piwik is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Lesser General Public License for more details.
-
- *  @link http://piwik.pro
- *  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+/**
+ * Piwik PRO - Premium functionality and enterprise-level support for Piwik Analytics
  *
+ * @link http://piwik.pro
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Organisations;
 
-use Exception;
 use Piwik\Archive;
 use Piwik\Db;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
+use Piwik\Plugins\Organisations\Exception\IpRangesEmptyException;
+use Piwik\Plugins\Organisations\Exception\IpRangesOverlapException;
 
 class API extends \Piwik\Plugin\API
 {
@@ -64,8 +54,8 @@ class API extends \Piwik\Plugin\API
      * @param  array $ipRanges
      * @return int
      *
-     * @throws Exception  if ip ranges overlap
-     * @throws Exception  if no valid ip range was passed
+     * @throws IpRangesOverlapException  if ip ranges overlap
+     * @throws IpRangesEmptyException  if no valid ip range was passed
      */
     public function addOrganisation($name, $ipRanges)
     {
@@ -74,7 +64,7 @@ class API extends \Piwik\Plugin\API
         $ipRanges = $this->validateIpRanges($ipRanges, null);
 
         if (0 === count($ipRanges)) {
-            throw new Exception(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
+            throw new IpRangesEmptyException(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
         }
 
         $idOrg = $this->getModel()->createOrganisation(array(
@@ -92,8 +82,8 @@ class API extends \Piwik\Plugin\API
      * @param string $name
      * @param array $ipRanges
      *
-     * @throws Exception  if ip ranges overlap
-     * @throws Exception  if no valid ip range was passed
+     * @throws IpRangesOverlapException  if ip ranges overlap
+     * @throws IpRangesEmptyException  if no valid ip range was passed
      */
     public function updateOrganisation($idOrg, $name, $ipRanges)
     {
@@ -102,7 +92,7 @@ class API extends \Piwik\Plugin\API
         $ipRanges = $this->validateIpRanges($ipRanges, $ignoreIdOrg = $idOrg);
 
         if (0 === count($ipRanges)) {
-            throw new Exception(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
+            throw new IpRangesEmptyException(Piwik::translate('Organisations_ErrorIpRangesEmpty'));
         }
 
         $this->getModel()->updateOrganisation($idOrg, array(
@@ -142,12 +132,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Removes invalid IP ranges from list.
      *
-     * The overlap checking is not done across organisations!
-     *
      * @param  array $ipRanges
      * @param  int   $ignoreIdOrg
      * @return array
-     * @throws Exception  if ip ranges overlap
+     * @throws IpRangesOverlapException  if ip ranges overlap
      */
     private function validateIpRanges($ipRanges, $ignoreIdOrg = null)
     {
@@ -182,7 +170,7 @@ class API extends \Piwik\Plugin\API
      * @param array $ipRanges
      * @param int   $ignoreIdOrg
      *
-     * @throws Exception  if ip ranges overlap
+     * @throws IpRangesOverlapException  if ip ranges overlap
      */
     private function checkForGlobalOverlap($ipRanges, $ignoreIdOrg = null)
     {
@@ -239,7 +227,7 @@ class API extends \Piwik\Plugin\API
                 if ((0 <= strcmp($ipRange['bounds'][0], $globalIpRange['bounds'][0]) && 0 >= strcmp($ipRange['bounds'][0], $globalIpRange['bounds'][1])) ||
                     (0 <= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][0]) && 0 >= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][1])) ||
                     (0 >= strcmp($ipRange['bounds'][0], $globalIpRange['bounds'][0]) && 0 <= strcmp($ipRange['bounds'][1], $globalIpRange['bounds'][1]))) {
-                    throw new Exception(
+                    throw new IpRangesOverlapException(
                         Piwik::translate(
                             'Organisations_ErrorIpRangesOverlapGlobal',
                             array($ipRange['range'], $globalIpRange['range'], $globalIpRange['name'])
@@ -255,7 +243,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param array $ipRanges
      *
-     * @throws Exception  if ip ranges overlap
+     * @throws IpRangesOverlapException  if ip ranges overlap
      */
     private function checkForInternalOverlap($ipRanges)
     {
@@ -269,7 +257,7 @@ class API extends \Piwik\Plugin\API
             $b = $ipRanges[$i + 1];
 
             if (0 <= strcmp($a['bounds'][1], $b['bounds'][0])) {
-                throw new Exception(
+                throw new IpRangesOverlapException(
                     Piwik::translate(
                         'Organisations_ErrorIpRangesOverlap',
                         array($b['range'], $a['range'])

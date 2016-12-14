@@ -1,20 +1,9 @@
 <?php
-/*
- *  Piwik - free/libre analytics platform
-
- *  Piwik is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
-
- *  Piwik is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Lesser General Public License for more details.
-
- *  @link http://piwik.pro
- *  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+/**
+ * Piwik PRO - Premium functionality and enterprise-level support for Piwik Analytics
  *
+ * @link http://piwik.pro
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 
@@ -24,6 +13,7 @@ use Piwik\Network\IP;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Organisations\Exception\InvalidOrganisationSegmentException;
 use Piwik\Plugins\Organisations\Model;
 use Piwik\Plugins\Resolution\Segment;
 use Piwik\Tracker\Action;
@@ -36,6 +26,9 @@ class Organisation extends VisitDimension
     protected $columnName = 'organisation';
     protected $columnType = 'SMALLINT(5) NOT NULL';
 
+    /**
+     * @throws InvalidOrganisationSegmentException
+     */
     protected function configureSegments()
     {
         $segment = new Segment();
@@ -59,7 +52,7 @@ class Organisation extends VisitDimension
             }
             $index = array_search(trim(urldecode($org)), $organisationNames);
             if ($index === false) {
-                throw new \Exception("organisation segment must be one of: " . implode(', ', $organisationNames));
+                throw new InvalidOrganisationSegmentException($organisationNames);
             }
             return $index;
         });
