@@ -21,6 +21,7 @@ namespace Piwik\Plugins\Organisations;
 
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuReporting;
+use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -31,6 +32,8 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->addManageItem('Organisations_Organisations',  $this->urlForAction('adminIndex'));
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addManageItem('Organisations_Organisations', $this->urlForAction('adminIndex'));
+        }
     }
 }
