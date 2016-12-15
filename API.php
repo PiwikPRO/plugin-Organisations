@@ -18,7 +18,7 @@ use Piwik\Plugins\Organisations\Exception\IpRangesOverlapException;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Returns datatable for organisation report
+     * Returns \Piwik\DataTable for organisation report
      *
      * @param int $idSite
      * @param string $period
@@ -154,7 +154,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        usort($boundedIpRanges, function($a, $b) {
+        usort($boundedIpRanges, function ($a, $b) {
             return strcmp($a['bounds'][0], $b['bounds'][0]);
         });
 
@@ -172,10 +172,10 @@ class API extends \Piwik\Plugin\API
      *
      * @throws IpRangesOverlapException  if ip ranges overlap
      */
-    private function checkForGlobalOverlap($ipRanges, $ignoreIdOrg = null)
+    private function checkForGlobalOverlap(array $ipRanges, $ignoreIdOrg = null)
     {
         if (0 === count($ipRanges)) {
-            // skip check if there is ip range
+            // skip check if there is no ip range
             return;
         }
 
@@ -239,7 +239,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Checks if the ip ranges inside one organisation overlap.
+     * Checks if the ip ranges that are inside one organisation overlap.
      *
      * @param array $ipRanges
      *

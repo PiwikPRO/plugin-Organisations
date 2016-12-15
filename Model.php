@@ -132,8 +132,7 @@ class Model
      */
     public function getOrganisationFromIp($ip)
     {
-        $cache        = new Cache();
-        $cacheContent = $cache->getCacheGeneral();
+        $cacheContent = Cache::getCacheGeneral();
 
         if (!array_key_exists(self::TRACKER_CACHE_KEY, $cacheContent)) {
             $ipRanges = $this->getIpRangeMapping();
