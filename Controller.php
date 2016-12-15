@@ -86,4 +86,3 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 }
-
