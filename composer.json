@@ -1,0 +1,20 @@
+{
+    "name": "piwikpro/Organisations",
+    "type": "piwik-plugin",
+    "version": "1.0.1",
+    "description": "Piwik plugin for recognition of configurable organisations based on IPs",
+    "keywords": ["organisation"],
+    "license": "GPL v3+",
+    "homepage": "http://piwik.pro",
+    "require": {
+        "piwik/piwik": "2.16.*",
+        "php": ">=5.4"
+    },
+    "authors": [
+        {
+            "name": "Piwik PRO",
+            "email": "contact@piwik.pro",
+            "homepage": "https://piwik.pro/"
+        }
+    ]
+}
