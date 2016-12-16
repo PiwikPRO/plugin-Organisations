@@ -86,7 +86,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function adminIndex()
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
 
         $view = new View('@Organisations/admin');
         $view->organisations = Request::processRequest('Organisations.getAvailableOrganisations');
