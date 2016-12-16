@@ -69,7 +69,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addOrganisation($name, $ipRanges)
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
 
         $ipRanges = $this->validateIpRanges($ipRanges, null);
 
@@ -97,7 +97,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateOrganisation($idOrg, $name, $ipRanges)
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
 
         $ipRanges = $this->validateIpRanges($ipRanges, $ignoreIdOrg = $idOrg);
 
@@ -118,7 +118,7 @@ class API extends \Piwik\Plugin\API
      */
     public function deleteOrganisation($idOrg)
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
         $this->getModel()->deleteOrganisation($idOrg);
     }
 
