@@ -7,6 +7,18 @@
 describe("Organisations", function () {
     this.timeout(0);
 
+    before(function () {
+        testEnvironment.configOverride = {
+            Tracker: {
+                debug: 1
+            }
+        };
+
+        testEnvironment.save();
+    });
+
+    this.fixture = "Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits";
+
     it('should organisations management', function (done) {
         expect.screenshot('admin').to.be.captureSelector('#content', function (page) {
             page.load("?module=Organisations&action=adminIndex");
