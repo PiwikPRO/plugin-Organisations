@@ -18,8 +18,14 @@
  */
 namespace Piwik\Plugins\Organisations\tests\Integration;
 
+use Piwik\Plugin;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Organisations\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Db;
+
+use Piwik\Cache as PiwikCache;
 
 /**
  * @group Plugins
@@ -30,7 +36,8 @@ class ModelTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        \Piwik\Plugin\Manager::getInstance()->loadPlugin('Organisations');
+
+        PluginManager::getInstance()->loadPlugin('Organisations');
     }
 
     private $organisation1 = array(
@@ -41,6 +48,15 @@ class ModelTest extends IntegrationTestCase
             '2001:5c0:1000:b::90f8/128'
         )
     );
+
+    public function testAddingAdditionalColumn()
+    {
+        $plugin = PluginManager::getInstance()->getLoadedPlugin('Organisations');
+        $this->clearPluginDimensions($plugin);
+        $this->assertFalse($this->hasOrganisationColumn());
+        $plugin->install();
+        $this->assertTrue($this->hasOrganisationColumn());
+    }
 
     private function setupOrganisation()
     {
@@ -77,4 +93,21 @@ class ModelTest extends IntegrationTestCase
         $this->assertArraySubset($newOrgData, $result);
     }
 
+    private function clearPluginDimensions(Plugin $plugin)
+    {
+        foreach (VisitDimension::getDimensions($plugin) as $dimension) {
+            $dimension->uninstall();
+        }
+    }
+
+    private function hasOrganisationColumn()
+    {
+        foreach (Db::fetchAll('DESC log_visit') as $org) {
+            if ($org['Field'] == 'organisation') {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

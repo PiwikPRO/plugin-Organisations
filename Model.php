@@ -20,11 +20,14 @@
 
 namespace Piwik\Plugins\Organisations;
 
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Network\IP;
 use Piwik\Option;
+use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\Visit;
 use Piwik\Tracker\Cache;
 
 class Model
@@ -236,7 +239,7 @@ class Model
     /**
      * Installs the required database table
      */
-    public static function install()
+    public function install()
     {
         $orgTable = "`idorg` INT(11) NOT NULL,
 					    `name` VARCHAR(100) NOT NULL,
@@ -244,5 +247,28 @@ class Model
 					    PRIMARY KEY (`idorg`)";
 
         DbHelper::createTable(self::$rawPrefix, $orgTable);
+        $this->installColumns();
+    }
+
+    private function installColumns()
+    {
+        $database = $this->getDb();
+
+        try {
+            $database->exec(
+                sprintf(
+                    "ALTER TABLE `%s` %s",
+                    Common::prefixTable('log_visit'),
+                    'ADD COLUMN `organisation` SMALLINT(5) NOT NULL'
+                )
+            );
+            $database->exec(
+                sprintf(
+                    "ALTER TABLE `%s` %s",
+                    Common::prefixTable('log_conversion'),
+                    'ADD COLUMN `organisation` SMALLINT(5) NOT NULL'
+                )
+            );
+        } catch (\Exception $exception) {}
     }
 }
