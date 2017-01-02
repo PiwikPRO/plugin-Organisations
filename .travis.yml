@@ -44,7 +44,7 @@ install:
 - cd piwik
 - git fetch -q --all
 - git submodule update
-- '[ -d ./tests/travis/.git ] || sh -c "rm -rf ./tests/travis && git clone https://github.com/piwik/travis-scripts.git
+- '[ -d ./tests/travis/.git ] || sh -c "rm -rf ./tests/travis && git clone https://$GITHUB_USER_TOKEN:@github.com/PiwikPRO/travis-scripts.git
   ./tests/travis"'
 - cd ./tests/travis ; git checkout master ; cd ../..
 - "./tests/travis/configure_git.sh"

@@ -253,6 +253,7 @@ class Model
     private function installColumns()
     {
         $database = $this->getDb();
+
         try {
             $database->exec(
                 sprintf(
