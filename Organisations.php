@@ -20,11 +20,6 @@
 
 namespace Piwik\Plugins\Organisations;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Db;
-use Piwik\Plugins\Organisations\Columns\Organisation;
-use Piwik\Updater;
-use Piwik\Columns\Updater as ColumnUpdater;
 
 class Organisations extends \Piwik\Plugin
 {
@@ -67,7 +62,6 @@ class Organisations extends \Piwik\Plugin
     {
         $model = new Model();
         $model->install();
-        $model->installColumn(new Organisation());
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

@@ -247,23 +247,27 @@ class Model
 					    PRIMARY KEY (`idorg`)";
 
         DbHelper::createTable(self::$rawPrefix, $orgTable);
+        $this->installColumns();
     }
 
-    /**
-     * @param VisitDimension $dimension
-     */
-    public function installColumn(VisitDimension $dimension)
+    private function installColumns()
     {
-        foreach ($dimension->install() as $table => $operations) {
-            foreach ($operations as $operation) {
-                $this->getDb()->exec(
-                    sprintf(
-                        "ALTER TABLE `%s` %s",
-                        Common::prefixTable($table),
-                        $operation
-                    )
-                );
-            }
-        }
+        $database = $this->getDb();
+        try {
+            $database->exec(
+                sprintf(
+                    "ALTER TABLE `%s` %s",
+                    Common::prefixTable('log_visit'),
+                    'ADD COLUMN `organisation` SMALLINT(5) NOT NULL'
+                )
+            );
+            $database->exec(
+                sprintf(
+                    "ALTER TABLE `%s` %s",
+                    Common::prefixTable('log_conversion'),
+                    'ADD COLUMN `organisation` SMALLINT(5) NOT NULL'
+                )
+            );
+        } catch (\Exception $exception) {}
     }
 }
