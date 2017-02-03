@@ -1,20 +1,9 @@
 <?php
-/*
- *  Piwik - free/libre analytics platform
-
- *  Piwik is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
-
- *  Piwik is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Lesser General Public License for more details.
-
- *  @link http://piwik.pro
- *  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+/**
+ * Piwik PRO - Premium functionality and enterprise-level support for Piwik Analytics
  *
+ * @link http://piwik.pro
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 
@@ -34,12 +23,14 @@ class Model
 {
     const TRACKER_CACHE_KEY = 'organisationMapping';
     const OPTION_KEY        = 'Organisations.hashed';
+    /** @var string */
     private static $rawPrefix = 'organisation';
-    private        $table;
+    /** @var string */
+    private        $tableName;
 
     public function __construct()
     {
-        $this->table = Common::prefixTable(self::$rawPrefix);
+        $this->tableName = Common::prefixTable(self::$rawPrefix);
     }
 
     /**
@@ -49,7 +40,7 @@ class Model
      */
     public function getAll()
     {
-        $organisations = $this->getDb()->fetchAll('SELECT * FROM ' . $this->table);
+        $organisations = $this->getDb()->fetchAll('SELECT * FROM ' . $this->tableName);
         foreach ($organisations as &$organisation) {
             $organisation['ipranges'] = $this->splitIpRanges($organisation['ipranges']);
         }
@@ -65,7 +56,7 @@ class Model
      */
     public function getOrganisation($idOrg)
     {
-        $query        = 'SELECT * FROM ' . $this->table . ' WHERE idorg = ?';
+        $query        = 'SELECT * FROM ' . $this->tableName . ' WHERE idorg = ?';
         $bind         = array($idOrg);
         $organisation = Db::fetchRow($query, $bind);
         if ($organisation && array_key_exists('ipranges', $organisation)) {
@@ -82,7 +73,7 @@ class Model
      */
     public function deleteOrganisation($idOrg)
     {
-        $query = 'DELETE FROM ' . $this->table . ' WHERE idorg = ?';
+        $query = 'DELETE FROM ' . $this->tableName . ' WHERE idorg = ?';
         $bind  = array($idOrg);
         Db::query($query, $bind);
     }
@@ -96,7 +87,7 @@ class Model
     public function updateOrganisation($idOrg, $organisation)
     {
         $organisation['ipranges'] = $this->combineIpRanges($organisation['ipranges']);
-        $this->getDb()->update($this->table, $organisation, "idorg = " . (int)$idOrg);
+        $this->getDb()->update($this->tableName, $organisation, "idorg = " . (int)$idOrg);
     }
 
     /**
@@ -111,7 +102,7 @@ class Model
         $organisation['idorg']    = $nextId;
         $organisation['ipranges'] = $this->combineIpRanges($organisation['ipranges']);
 
-        $this->getDb()->insert($this->table, $organisation);
+        $this->getDb()->insert($this->tableName, $organisation);
 
         return $nextId;
     }
@@ -144,8 +135,7 @@ class Model
      */
     public function getOrganisationFromIp($ip)
     {
-        $cache        = new Cache();
-        $cacheContent = $cache->getCacheGeneral();
+        $cacheContent = Cache::getCacheGeneral();
 
         if (!array_key_exists(self::TRACKER_CACHE_KEY, $cacheContent)) {
             $ipRanges = $this->getIpRangeMapping();
@@ -222,7 +212,7 @@ class Model
     private function getNextOrganisationId()
     {
         $db       = $this->getDb();
-        $idReport = $db->fetchOne("SELECT max(idorg) + 1 FROM " . $this->table);
+        $idReport = $db->fetchOne("SELECT max(idorg) + 1 FROM " . $this->tableName);
 
         if ($idReport == false) {
             $idReport = 1;
