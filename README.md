@@ -26,6 +26,7 @@ To speed up the detection the IP ranges are cached in a better processable forma
 
 ## Changelog
 
+- 1.2.1 Minor improvements and bugfixes
 - 1.2 Add additional column during installation
 - 1.1 Permissions bugfix
 - 1.0 Initial release
