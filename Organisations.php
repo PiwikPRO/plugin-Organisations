@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\Organisations;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Db;
 
 class Organisations extends \Piwik\Plugin
 {
@@ -51,7 +49,8 @@ class Organisations extends \Piwik\Plugin
 
     public function install()
     {
-        Model::install();
+        $model = new Model();
+        $model->install();
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
