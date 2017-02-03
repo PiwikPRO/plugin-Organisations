@@ -1,21 +1,23 @@
 /**
- *  Piwik - free/libre analytics platform
-
- *  Piwik is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
-
- *  Piwik is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Lesser General Public License for more details.
-
- *  @link http://piwik.pro
- *  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * Piwik PRO - Premium functionality and enterprise-level support for Piwik Analytics
+ *
+ * @link http://piwik.pro
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("Organisations", function () {
     this.timeout(0);
+
+    before(function () {
+        testEnvironment.configOverride = {
+            Tracker: {
+                debug: 1
+            }
+        };
+
+        testEnvironment.save();
+    });
+
+    this.fixture = "Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits";
 
     it('should organisations management', function (done) {
         expect.screenshot('admin').to.be.captureSelector('#content', function (page) {

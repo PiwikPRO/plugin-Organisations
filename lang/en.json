@@ -14,6 +14,7 @@
         "OnlyOneOrganisationAtTime": "You can only edit one organisation at a time. Please Save or Cancel your current modifications to the organisation %s.",
         "Organisation": "Organisation",
         "Organisations": "Organisations",
-        "OrganisationsManagement": "Manage organisations"
+        "OrganisationsManagement": "Manage organisations",
+        "InvalidOrganisationSegment": "Organisation segment must be one of: %s"
     }
 }
