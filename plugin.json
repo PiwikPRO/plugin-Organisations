@@ -1,6 +1,6 @@
 {
     "name": "Organisations",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Piwik plugin for recognition of configurable organisations based on IPs",
     "keywords": ["organisation"],
     "license": "GPL v3+",
