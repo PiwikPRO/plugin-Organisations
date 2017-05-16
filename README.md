@@ -15,7 +15,7 @@ To speed up the detection the IP ranges are cached in a better processable forma
 
 ### Requirements
 
-[Piwik](https://github.com/piwik/piwik) 2.16.0 or higher is required.
+[Piwik](https://github.com/piwik/piwik) 3.0.0 or higher is required.
 
 ### Features
 
@@ -26,10 +26,18 @@ To speed up the detection the IP ranges are cached in a better processable forma
 
 ## Changelog
 
-- 1.2.1 Minor improvements and bugfixes
-- 1.2 Add additional column during installation
-- 1.1 Permissions bugfix
-- 1.0 Initial release
+* 2.0.0
+    - Piwik 3 compatibility
+* 1.2.1
+    - Minor improvements and bugfixes
+* 1.2.1
+    - Minor improvements and bugfixes
+* 1.2
+    - Add additional column during installation
+* 1.1
+    - Permissions bugfix
+* 1.0
+    - Initial release
 
 ## License
 

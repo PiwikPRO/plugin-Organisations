@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 namespace Piwik\Plugins\Organisations\Reports;
 
 use Piwik\Piwik;
@@ -19,13 +18,12 @@ class GetOrganisation extends Report
 {
     protected function init()
     {
-        $this->category       = 'General_Visitors';
+        $this->categoryId     = 'General_Visitors';
+        $this->subcategoryId  = 'Organisations_Organisation';
         $this->dimension      = new Organisation();
         $this->name           = Piwik::translate('Organisations_Organisation');
         $this->order          = 50;
-        $this->widgetTitle    = 'Organisations_Organisation';
         $this->hasGoalMetrics = true;
-        //$this->documentation = Piwik::translate('Provider_ProviderReportDocumentation', '<br />');
     }
 
     public function getDefaultTypeViewDataTable()

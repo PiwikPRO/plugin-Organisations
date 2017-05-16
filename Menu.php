@@ -14,15 +14,15 @@ use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-        $menu->addVisitorsItem('Organisations_Organisations', $this->urlForAction('index'), 55);
-    }
-
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        if (Piwik::hasUserSuperUserAccess()) {
-            $menu->addManageItem('Organisations_Organisations', $this->urlForAction('adminIndex'));
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
         }
+
+        $menu->addSystemItem(
+            Piwik::translate('Organisations_Organisations'),
+            $this->urlForAction('adminIndex')
+        );
     }
 }

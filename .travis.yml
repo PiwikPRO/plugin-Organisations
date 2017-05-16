@@ -1,9 +1,9 @@
 language: php
 
+group: legacy
+
 php:
   - 5.6
-  - 5.3
-#  - hhvm
 
 services:
   - redis-server
@@ -26,16 +26,17 @@ env:
     - PLUGIN_NAME=Organisations
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
     - PIWIK_REPOSITORY_SLUG=PiwikPRO/piwik.git
-    - PIWIK_TEST_TARGET=master
-    - secure: "IwdUVfrgmANQ1XVg8D67fQlQKqQxah3ykcBHn541orT3J+TChyDoZF8gITOquONuVFWx85mHIYDxuEgtTJhsAp27vL9teVSeGPOILo8jtwgMFQ3HxCAn3s6m2v6AYAYxau7LoSH6GRX0ur/uZCkYVasiUn7zwe49rKsf3NN1lwV+QzTgryTqqYxste6lCHKodxsypmWXPJ3Lv9HMPMMn6TZfFoYo18vfEGoehV0GeHiyfDUUV3dSzTvsZ4ZvGqqj3L57AYzq31bwvilsZym+ywVFbHhKabvssrEsUYFG6upnQJ8FaHgBdrbwGqYNenVkwOJsd5gusBynSfUb8serHlMgPnJrFchblfYmFf1AmF/JEFUs133GhFAq8rFykrq+SF95KiaPl84p40THKhVV9A5DK8usvC6m4VJ6LeC83k82I1uSGhxIqunOdDjxdB983SouBMHgFgUoYgXFr/ts4JOZqdCGbaOpCvww6NY1YyO03TPy/9JahOMJz/ewpmkya0aMWQC2zKFkyNkaiO5s0BjrntNknpr70Zf8uu4mEGPmVQsEvfT40Zi0aDpMJLz/+wq4i3taHaYogILd0T1eDVwMETd9WsucrlWKwVovuGSw2L0A8NgZvxmwCf7mnmndGV24x+HFWZQLVjcEKzz0Kheug3LQ4xnMjjWNn6alsao="
-    - secure: "LyWiPferpiP61Xa8vhnAhKDA3t9xZMm4JTbEFLQOs71yCCLvcw0Q2FV/jtA3e/rLa4+hNhsCEG1LlHoqRt2hC+5NQiGD9MIz09nqinTTEwUVdpe5Bh8IY+GWRjO3y7qISZ6e8hqfjwwXvKxsZnJz9KmTLWrTHMhYkN42mGVTmv2FxNJ2V/MmGCA9hjVEBTyMA+uSnwzFyuT0AGkXrBrRvdRIpS6/H5DFgeRjltIYamBSY3U9u+fBIsejTMF0t+v+SNYp4f7jABTdxTCoTz2l2VEAkMqTlcZFb1AvWcKJM/6iB3ZpkA3SLhnhjleusAzEqmQPJxI/XurkZ9T2I1UFCXoUVump3QM7cPGRy6zidSSse5BXTUtt09KFfLxgjaSjZwPCIqowYaKtSlvwV/usznv6ISa/uuhsJ7FP2f+ZQ5ODZdC9ancYf9xxFvIkLn1fLau8BSS/x/rk1FxDf1yMpGdmbrsqjPr74yegcWdTiwzF+8eHYaYZUAWcDxiFp9kyW/ytzl2y/G5tK8LGrRIaNwbsxjeOKbjsLRXGJXn8b64onCXafea4AXeXUfcM6v/PEv6kuJvB303wJC9YggDbeV3E4S/fXCI2l4XZvUAvpbaBaPP+KyjB74SpZWJVcOA8JikTGjcjr5GAC7IsO3Ah1+yVZ5FfTCEPQtLlBEoyy60="
+    - PIWIK_LATEST_STABLE_TEST_TARGET=3.x-pro
+    # github key
+    - secure: "FMB/xhiKflZ9B6/Ov3CRCDKaIjmxaAg/5s8H6D86V7n+vKJLV8bOodESLc+4ciKefv8Si520VmSqwK0mjfeerukunyvqMG/Pr//UNwGUxNTwZUtU0gJQWkh4NsNaLvdQQUmjvPHf1HXRfDlzCxIiiu6cuSrWp4Pk6UVhfkmo6BogQLdVbFB+IQYHAkTNU6E5oxM+JNWXZZ5v/oYhmIwQj2NK41gvrWOQ3gLK2hXC7K1dlArp3kpy9RQniKoUdpGeBAdpxGr1pzHSXoBp0eIOLlJVWzr/1Zby6lwfBj7VibkfP0IRPYJdvbiuzGY/c5GzK1E1IYx6RL90c3UnyXz7kuKffgSMoY3gJAbIZ9F66Yn9/N4jEVxWPe+MrncURqroS9zMNJ5+8c2hZKF9q4yMr1FkKX26lyA/gzh3c+91ArJsB6PkPDJr4B7EjSZkUmXl06ZxpYatHo5G0DHg4MBmW+49U2MdWehgNNnc002tfYwK/XU+f5Z0iqPKfbr1HjKZyP+/NRj7TTqIud2ri1BcvoYt0cchaLhjBC9oE/8E2G8aPIw2HDGsLP4aj85qjIw7q7SJ73TSsui1NYRInDvGHiv3ZzLu/Apmz9E8uRh2GSzbRJrJbFhd/yfBUKlOquifvW24ZDw5zLxAnUKleDtk4EAnB4BHFJtuRH3JKny2Rz8="
+    # artifacts key
+    - secure: "bvFfgsg5etNdWb5A4JW5SO54saUgwQ/rdpCuvZBXW6L8cg2GlACkvoXjVMN/SRBt86wCw7uiJiZ+6m0ZRPWqPHhQKE4EuIanLR27YDTkojd6AeUCYJQuBpE518+8E/tYE5oaj1WF91AZXV1MHjOTRvC4n+kV7FoR7X7kxi+N7K2aWP4ZExyHDP0nZvIchyAkd7NIt2FMsL0Y7eXUGmGqKmoRBHMS/dS3WTByA9RrYjetMAgEbDf92UI4zGBcAdftOdsIgvfDbW2WxG7rgfVkRW9AbkVbpNaDOH0MOiFrTNd8MM9WdKiWeR+Y/AHD9y8hobuiDHwGbdC4rGlWSlFXiWp9DNDo3ozXktB0ABBE2i1axWZxqlSv5Uiy4huyJ/oEGo6mjeTHP5z/boyi3sA1VQ9hxPMNQgeo1+MCrxjI5ZbWb/2UyTYTuvuuT2s0xbc/VYURON0oTG/P0HJE9TEK75aQq5/ldjdtAmmoISVjJfPR5P2xKdmxdRNaffUBr3Cs+cp4l/5PxDFaS+/LHc8ia/uj/DR6GT8gX2N9wMEYeAx2756m+RB7y1O1EmPEjspdxApF3LfsbAtutijjQPJilW+f6sYLySBLdW2C40lQazXiBgdH3KZLFjhNLFgmSaP0kmm41kQg45aBtZgErFwDVrtnoIZkBT0lYSD4sRmfMKM="
   matrix:
-    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_TEST_TARGET
-    #- TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_TEST_TARGET
-
-matrix:
-  exclude:
-    - php: 5.3
+    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_LATEST_STABLE_TEST_TARGET
+    # I have to temporarily disable test for minimum_required_piwik because there is no 3.x tag on fork
+    #- TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik
+    # UI tests currently don't work on our piwik fork
+    #- TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_LATEST_STABLE_TEST_TARGET
 
 sudo: required
 
@@ -67,14 +68,10 @@ install:
 
   - ./tests/travis/configure_git.sh
 
-  # disable tls for php 5.3 as openssl isn't available
-  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && composer config -g -- disable-tls true || true'
-
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
 
   - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
-  - composer config platform.php 5.6
 
   # move plugin contents to folder in the plugins subdirectory
   - rm -rf plugins/$PLUGIN_NAME
