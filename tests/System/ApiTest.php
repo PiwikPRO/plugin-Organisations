@@ -11,9 +11,12 @@ use Piwik\Plugins\Organisations\tests\Fixtures\TrackVisitsWithOrganisationsFixtu
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
- * @group Organisations
- * @group ApiTest
+ * Class APITest
+ * @package Piwik\Plugins\Organisations\tests\System
  * @group Plugins
+ * @group Organisations
+ * @group Organisations_System
+ * @group Organisations_System_APITest
  */
 class ApiTest extends SystemTestCase
 {

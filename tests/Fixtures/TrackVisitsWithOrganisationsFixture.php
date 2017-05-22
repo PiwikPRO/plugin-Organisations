@@ -16,8 +16,10 @@ use Piwik\Tracker\Cache;
 
 /**
  * Generates tracker testing data for our ApiTest
- *
  * This Simple fixture adds one website and tracks one visit with couple pageviews and an ecommerce conversion
+ *
+ * Class TrackVisitsWithOrganisationsFixture
+ * @package Piwik\Plugins\Organisations\tests\Fixtures
  */
 class TrackVisitsWithOrganisationsFixture extends Fixture
 {

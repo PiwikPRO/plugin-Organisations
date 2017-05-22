@@ -7,25 +7,25 @@
  */
 namespace Piwik\Plugins\Organisations\tests\Integration;
 
+use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Organisations\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Db;
-
-use Piwik\Cache as PiwikCache;
 
 /**
+ * Class ModelTest
+ * @package Piwik\Plugins\Organisations\tests\Integration
  * @group Plugins
  * @group Organisations
+ * @group Organisations_Integration
+ * @group Organisations_Integration_ModelTest
  */
 class ModelTest extends IntegrationTestCase
 {
     public function setUp()
     {
-        parent::setUp();
-
         PluginManager::getInstance()->loadPlugin('Organisations');
     }
 

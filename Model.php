@@ -5,8 +5,6 @@
  * @link http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-
 namespace Piwik\Plugins\Organisations;
 
 use Piwik\Columns\Dimension;
@@ -23,11 +21,20 @@ class Model
 {
     const TRACKER_CACHE_KEY = 'organisationMapping';
     const OPTION_KEY        = 'Organisations.hashed';
-    /** @var string */
-    private static $rawPrefix = 'organisation';
-    /** @var string */
-    private        $tableName;
 
+    /**
+     * @var string $rawPrefix
+     */
+    private static $rawPrefix = 'organisation';
+
+    /**
+     * @var string $tableName
+     */
+    private $tableName;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->tableName = Common::prefixTable(self::$rawPrefix);

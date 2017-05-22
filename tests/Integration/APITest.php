@@ -11,9 +11,12 @@ use Piwik\Plugins\Organisations\API;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * @group UsersManager
- * @group APITest
+ * Class APITest
+ * @package Piwik\Plugins\Organisations\tests\Integration
  * @group Plugins
+ * @group Organisations
+ * @group Organisations_Integration
+ * @group Organisations_Integration_APITest
  */
 class APITest extends IntegrationTestCase
 {
