@@ -1107,6 +1107,20 @@
 	</row>
 	<row>
 		<category>Actions</category>
+		<name>Bandwidth - Main metrics</name>
+		<module>Bandwidth</module>
+		<action>get</action>
+		<metrics>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+		</metrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
+		<uniqueId>Bandwidth_get</uniqueId>
+	</row>
+	<row>
+		<category>Actions</category>
 		<subcategory>Pages</subcategory>
 		<name>Page URLs</name>
 		<module>Actions</module>
@@ -1143,7 +1157,7 @@
 		<module>Actions</module>
 		<action>getEntryPageUrls</action>
 		<dimension>Entry Page URL</dimension>
-		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during his visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<entry_nb_visits>Entrances</entry_nb_visits>
 			<entry_bounce_count>Bounces</entry_bounce_count>
@@ -1216,7 +1230,7 @@
 		<module>Actions</module>
 		<action>getExitPageUrls</action>
 		<dimension>Exit Page URL</dimension>
-		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during his visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<exit_nb_visits>Exits</exit_nb_visits>
 			<nb_visits>Unique Pageviews</nb_visits>
@@ -1334,7 +1348,7 @@
 		<module>Actions</module>
 		<action>getSiteSearchKeywords</action>
 		<dimension>Keyword</dimension>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;http://piwik.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;</documentation>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -2018,133 +2032,6 @@
 		<uniqueId>Goals_getDaysToConversion_idGoal--1</uniqueId>
 	</row>
 	<row>
-		<category>UI Framework</category>
-		<subcategory>Data tables</subcategory>
-		<name>Data tables</name>
-		<module>ExampleUI</module>
-		<action>getTemperatures</action>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperatures&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperatures&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
-		<uniqueId>ExampleUI_getTemperatures</uniqueId>
-	</row>
-	<row>
-		<category>UI Framework</category>
-		<name>Temperatures evolution over time</name>
-		<module>ExampleUI</module>
-		<action>getTemperaturesEvolution</action>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperaturesEvolution&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperaturesEvolution&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
-		<uniqueId>ExampleUI_getTemperaturesEvolution</uniqueId>
-	</row>
-	<row>
-		<category>UI Framework</category>
-		<subcategory>Pie graph</subcategory>
-		<name>Pie graph</name>
-		<module>ExampleUI</module>
-		<action>getPlanetRatios</action>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatios&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatios&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
-		<uniqueId>ExampleUI_getPlanetRatios</uniqueId>
-	</row>
-	<row>
-		<category>UI Framework</category>
-		<subcategory>Tag clouds</subcategory>
-		<name>Advanced tag cloud: with logos and links</name>
-		<module>ExampleUI</module>
-		<action>getPlanetRatiosWithLogos</action>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatiosWithLogos&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatiosWithLogos&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
-		<uniqueId>ExampleUI_getPlanetRatiosWithLogos</uniqueId>
-	</row>
-	<row>
 		<category>API</category>
 		<name>Main metrics</name>
 		<module>API</module>
@@ -2171,6 +2058,9 @@
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
 		</metrics>
 		<metricsDocumentation>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
