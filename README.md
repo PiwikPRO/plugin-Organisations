@@ -26,6 +26,8 @@ To speed up the detection the IP ranges are cached in a better processable forma
 
 ## Changelog
 
+* 3.0.0
+    - PPPSYS-15075 Ensure PHP 7.3 compatibility
 * 2.1.0
     - PROD-966 Ensure PHP 7.2 compatibility
 * 2.0.0
